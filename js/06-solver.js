@@ -120,6 +120,9 @@ function calc(){
     h+='</table></div></div><div class="card"><h2>ردود أفعال المساند (kN)</h2><div class="scroll"><table><tr><th>العقدة</th><th>Rx</th><th>Ry</th></tr>';
     for(const i in R)h+=`<tr><td>${nm(+i)}</td><td>${fmt(R[i][0])}</td><td>${fmt(R[i][1])}</td></tr>`;
     h+='</table></div></div>';
+    h+='<div class="card"><h2>إزاحات العقد (mm)</h2><div class="scroll"><table><tr><th>العقدة</th><th>Ux</th><th>Uy</th><th>المحصلة</th></tr>';
+    nodes.forEach((node,i)=>{const ux=u[2*i]*1000,uy=u[2*i+1]*1000;h+=`<tr><td>${nm(i)}</td><td>${fmt(ux)}</td><td>${fmt(uy)}</td><td>${fmt(Math.hypot(ux,uy))}</td></tr>`;});
+    h+='</table></div><small>الإزاحات محسوبة وفق فرضية التشوهات الصغيرة والسلوك المرن الخطي.</small></div>';
     h+=`<div class="card"><h2>التحقق من الاتزان العام</h2><p class="${equilibriumOK?'t':'c'}">${equilibriumOK?'الاتزان متحقق ضمن هامش الدقة العددي.':'تنبيه: بواقي الاتزان أكبر من حد الدقة المتوقع.'}</p><div class="scroll"><table><tr><th>ΣFx (kN)</th><th>ΣFy (kN)</th><th>ΣM₀ (kN·m)</th></tr><tr><td>${fmt(sumFx)}</td><td>${fmt(sumFy)}</td><td>${fmt(sumM)}</td></tr></table></div><small>التحقق العددي لا يغني عن مراجعة النموذج والفرضيات الهندسية.</small></div>`;
     let mi=0;
     f.forEach((v,k)=>{if(Math.abs(v)>Math.abs(f[mi]))mi=k;});
