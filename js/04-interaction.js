@@ -25,8 +25,8 @@ function tapAt(e){
 function dragTo(e){const p=pt(e),x=snap(p.x),y=snap(p.y);
   if((nodes[drag].x!=x||nodes[drag].y!=y)&&!nodes.some((n,i)=>i!=drag&&n.x==x&&n.y==y)){nodes[drag].x=x;nodes[drag].y=y;moved=true;render();upd();}}
 const SK='truss-v1',ptrs=new Map();let G=null,tapOk=false,sx=0,sy=0,pan0=null;
-function saveS(){try{localStorage.setItem(SK,JSON.stringify({nodes,bars,sup,loads,A:$('A').value,sg:$('sg').value,v:2}));}catch(e){}}
-function loadS(){try{const s=JSON.parse(localStorage.getItem(SK)||'null');if(s&&Array.isArray(s.nodes)&&s.nodes.every(n=>isFinite(n.x)&&isFinite(n.y))){nodes=s.nodes;bars=(s.bars||[]).filter(b=>nodes[b[0]]&&nodes[b[1]]);sup=s.sup||{};loads=s.loads||{};for(const i in loads)if(typeof loads[i][0]=='number')loads[i]=[loads[i]];if(s.A&&s.v==2)$('A').value=s.A;if(s.sg)$('sg').value=s.sg;}}catch(e){}}
+function saveS(){try{localStorage.setItem(SK,JSON.stringify({nodes,bars,sup,loads,A:$('A').value,sgt:$('sgt').value,sgc:$('sgc').value,v:3}));}catch(e){}}
+function loadS(){try{const s=JSON.parse(localStorage.getItem(SK)||'null');if(s&&Array.isArray(s.nodes)&&s.nodes.every(n=>isFinite(n.x)&&isFinite(n.y))){nodes=s.nodes;bars=(s.bars||[]).filter(b=>nodes[b[0]]&&nodes[b[1]]);sup=s.sup||{};loads=s.loads||{};for(const i in loads)if(typeof loads[i][0]=='number')loads[i]=[loads[i]];if(s.A!==undefined)$('A').value=s.A;if(s.sgt!==undefined)$('sgt').value=s.sgt;if(s.sgc!==undefined)$('sgc').value=s.sgc;}}catch(e){}}
 function ensureMan(){if(!man)man={x0:V.x0,y0:V.y0,w:V.w,h:V.h};}
 function zoom(f,cx,cy){ensureMan();const nw=Math.min(400,Math.max(1,man.w/f)),r=nw/man.w;man={x0:cx-(cx-man.x0)*r,y0:cy-(cy-man.y0)*r,w:nw,h:man.h*r};render();}
 function gst(){ensureMan();const a=[...ptrs.values()];return{d:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)||1,cx:(a[0].x+a[1].x)/2,cy:(a[0].y+a[1].y)/2,m:{...man}};}
