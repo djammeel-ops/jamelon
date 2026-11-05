@@ -51,6 +51,8 @@ function calc(){
     validateModel();
     const aIn=$('A').value.trim()===''?NaN:Number($('A').value);
     const sIn=$('sg').value.trim()===''?NaN:Number($('sg').value);
+    if($('A').value.trim()!==''&&!Number.isFinite(aIn))throw new Error('قيمة المساحة غير صالحة.');
+    if($('sg').value.trim()!==''&&!Number.isFinite(sIn))throw new Error('قيمة الإجهاد غير صالحة.');
     if(Number.isFinite(aIn)&&aIn<=0)throw new Error('يجب أن تكون مساحة المقطع أكبر من صفر.');
     if(Number.isFinite(sIn)&&sIn<=0)throw new Error('يجب أن يكون الإجهاد المسموح أكبر من صفر.');
     if(Number.isFinite(aIn)&&Number.isFinite(sIn))throw new Error('أدخل المساحة أو الإجهاد المسموح، وليس الاثنين معًا.');
