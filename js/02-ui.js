@@ -1,5 +1,6 @@
 /* UI: toolbar, menus, input controls */
 
+function buildTb(){
   let h=`<button data-t="select" class="${tool=='select'?'on':''}">${svg('select')}تحريك</button><button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo">${svg('undo')}تراجع</button>`;
 
   h+=`<button data-a="calc" class="calc">${svg('calc')}حساب</button><button data-a="clr" class="cl">${svg('clr')}مسح</button>`;
