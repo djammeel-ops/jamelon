@@ -50,12 +50,14 @@ function calc(){
   try{
     validateModel();
     const aIn=$('A').value.trim()===''?NaN:Number($('A').value);
-    const sIn=$('sg').value.trim()===''?NaN:Number($('sg').value);
+    const stIn=$('sgt').value.trim()===''?NaN:Number($('sgt').value);
+    const scIn=$('sgc').value.trim()===''?NaN:Number($('sgc').value);
     if($('A').value.trim()!==''&&!Number.isFinite(aIn))throw new Error('قيمة المساحة غير صالحة.');
-    if($('sg').value.trim()!==''&&!Number.isFinite(sIn))throw new Error('قيمة الإجهاد غير صالحة.');
+    if($('sgt').value.trim()!==''&&!Number.isFinite(stIn))throw new Error('قيمة إجهاد الشد المسموح غير صالحة.');
+    if($('sgc').value.trim()!==''&&!Number.isFinite(scIn))throw new Error('قيمة إجهاد الضغط المسموح غير صالحة.');
     if(Number.isFinite(aIn)&&aIn<=0)throw new Error('يجب أن تكون مساحة المقطع أكبر من صفر.');
-    if(Number.isFinite(sIn)&&sIn<=0)throw new Error('يجب أن يكون الإجهاد المسموح أكبر من صفر.');
-    if(Number.isFinite(aIn)&&Number.isFinite(sIn))throw new Error('أدخل المساحة أو الإجهاد المسموح، وليس الاثنين معًا.');
+    if(Number.isFinite(stIn)&&stIn<=0)throw new Error('يجب أن يكون إجهاد الشد المسموح أكبر من صفر.');
+    if(Number.isFinite(scIn)&&scIn<=0)throw new Error('يجب أن يكون إجهاد الضغط المسموح أكبر من صفر.');
     const E=200e6; // kN/m² (steel, assumed)
     const area=(Number.isFinite(aIn)?aIn:10)*1e-4; // cm² -> m²
     const D=nodes.length*2;
@@ -114,10 +116,14 @@ function calc(){
     const equilibriumOK=forceResidual<=1e-6*Math.max(1,loadScale)&&Math.abs(sumM)<=1e-6*Math.max(1,loadScale*Math.max(1,...nodes.map(n=>Math.hypot(n.x,n.y))));
     res={f};render();
 
-    let h='<div class="card"><h2>القوى الداخلية في القضبان</h2><div class="scroll"><table><tr><th>القضيب</th><th>الطول (m)</th><th>القوة (kN)</th><th>الحالة</th></tr>';
+    const checkOn=Number.isFinite(stIn)||Number.isFinite(scIn);
+    let h='<div class="card"><h2>القوى الداخلية في القضبان</h2><div class="scroll"><table><tr><th>القضيب</th><th>الطول (m)</th><th>القوة (kN)</th><th>الحالة</th>'+(checkOn?'<th>الإجهاد المحسوب (MPa)</th><th>الإجهاد المسموح (MPa)</th><th>نسبة الاستغلال</th><th>النتيجة</th>':'')+'</tr>';
     f.forEach((v,k)=>{
       const [i,j]=bars[k],L=Math.hypot(nodes[j].x-nodes[i].x,nodes[j].y-nodes[i].y),zero=Math.abs(v)<1e-6,cls=zero?'':v>0?'t':'c';
-      h+=`<tr><td>${nm(i)}–${nm(j)}</td><td>${fmt(L)}</td><td class="${cls}">${fmt(Math.abs(v))}</td><td class="${cls}">${zero?'قوة شبه معدومة':v>0?'شدّ':'انضغاط'}</td></tr>`;
+      const stress=10*Math.abs(v)/(Number.isFinite(aIn)?aIn:10);
+      const allowable=v>0?stIn:scIn;
+      const ratio=Number.isFinite(allowable)?stress/allowable:NaN;
+      h+=`<tr><td>${nm(i)}–${nm(j)}</td><td>${fmt(L)}</td><td class="${cls}">${fmt(Math.abs(v))}</td><td class="${cls}">${zero?'قوة شبه معدومة':v>0?'شدّ':'انضغاط'}</td>${(Number.isFinite(stIn)||Number.isFinite(scIn))?`<td>${zero?'—':fmt(stress)}</td><td>${zero?'—':Number.isFinite(allowable)?fmt(allowable):'غير محدد'}</td><td class="${zero?'':Number.isFinite(ratio)&&ratio<=1?'t':'c'}">${zero?'—':Number.isFinite(ratio)?fmt(ratio*100)+'%':'—'}</td><td class="${zero?'':Number.isFinite(ratio)&&ratio<=1?'t':'c'}">${zero?'—':!Number.isFinite(ratio)?'أدخل الإجهاد المسموح':ratio<=1?'مقبول':'غير مقبول'}</td>`:''}</tr>`;
     });
     h+='</table></div></div><div class="card"><h2>ردود أفعال المساند (kN)</h2><div class="scroll"><table><tr><th>العقدة</th><th>Rx</th><th>Ry</th></tr>';
     for(const i in R)h+=`<tr><td>${nm(+i)}</td><td>${fmt(R[i][0])}</td><td>${fmt(R[i][1])}</td></tr>`;
@@ -130,8 +136,7 @@ function calc(){
     f.forEach((v,k)=>{if(Math.abs(v)>Math.abs(f[mi]))mi=k;});
     const maxForce=Math.abs(f[mi]||0),member=bars.length?nm(bars[mi][0])+'–'+nm(bars[mi][1]):'—',kind=maxForce<1e-6?'':f[mi]>0?'شدّ':'انضغاط';
     const note=`<br><small>أكبر قوة محورية: ${fmt(maxForce)} kN في القضيب ${member}${kind?' ('+kind+')':''}</small>`;
-    if(Number.isFinite(aIn))h+=`<div class="card"><h2>الإجهاد المحوري التقريبي</h2>σ = <b>${fmt(10*maxForce/aIn)}</b> MPa${note}<small>حُسب على أساس مساحة موحدة لجميع القضبان.</small></div>`;
-    else if(Number.isFinite(sIn))h+=`<div class="card"><h2>مساحة المقطع المطلوبة مبدئيًا</h2>A = <b>${fmt(10*maxForce/sIn)}</b> cm²${note}<small>هذا تقدير محوري أولي، ولا يشمل فحص الانبعاج أو الوصلات أو معاملات التصميم.</small></div>`;
+    h+=`<div class="card"><h2>فرضيات التحقق بالإجهاد المسموح (ASD)</h2><p>مساحة المقطع المستخدمة: <b>${fmt(Number.isFinite(aIn)?aIn:10)} cm²</b> ${Number.isFinite(aIn)?'':'(قيمة افتراضية)'}</p>${checkOn?'<p>يُفحص كل قضيب على حدة بمقارنة الإجهاد المحسوب مع الإجهاد المسموح الموافق لنوع القوة.</p>':'<p>أدخل إجهاد الشد المسموح و/أو إجهاد الضغط المسموح لإظهار نتيجة التحقق.</p>'}${note}<small>يفترض هذا الإصدار مساحة موحدة لجميع القضبان، وإجهادات مسموحة تدخلها أنت؛ لا تُستنتج قيم المادة أو الكود تلقائيًا.</small></div>`;
     out.innerHTML=h;
   }catch(e){
     res=null;render();
