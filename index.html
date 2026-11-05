@@ -15,7 +15,12 @@
 <div id="hint"></div>
 <div class="row" id="pn"><label>الفاصلة x (m)<input id="nx" type="number" step="any" enterkeyhint="next" value="0"></label><label>الترتيبة y (m)<input id="ny" type="number" step="any" enterkeyhint="done" value="0"></label><button id="go">إضافة</button></div>
 <div class="row" id="pl"><label>العقدة<select id="ln"></select></label><label>Fx (kN)<input id="fx" type="number" step="any" enterkeyhint="next" value="0"></label><label>Fy (kN)<input id="fy" type="number" step="any" enterkeyhint="done" value="-10"></label><button id="ap">تطبيق</button></div>
-<div class="row" id="pa"><label>المساحة A (cm²)<input id="A" type="number" step="any" inputmode="decimal" enterkeyhint="next" placeholder="اختياري"></label><label>الإجهاد σ (MPa)<input id="sg" type="number" step="any" inputmode="decimal" enterkeyhint="done" placeholder="اختياري"></label><small style="flex-basis:100%;color:var(--mut)">أدخل أحدهما فقط، وبعد «حساب» يظهر الآخر.</small></div>
+<div class="row" id="pa">
+<label>المساحة A (cm²)<input id="A" type="number" step="any" inputmode="decimal" enterkeyhint="next" placeholder="اختياري"></label>
+<label>إجهاد الشد المسموح (MPa)<input id="sgt" type="number" step="any" inputmode="decimal" enterkeyhint="next" placeholder="اختياري"></label>
+<label>إجهاد الضغط المسموح (MPa)<input id="sgc" type="number" step="any" inputmode="decimal" enterkeyhint="done" placeholder="اختياري"></label>
+<small style="flex-basis:100%;color:var(--mut)">المساحة اختيارية (10 cm² افتراضياً). أدخل إجهاد الشد و/أو الضغط المسموح لإظهار التحقق الموافق لكل قضيب.</small>
+</div>
 <div id="out"></div>
 </main>
 <script defer src="js/01-core.js"></script>
