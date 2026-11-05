@@ -1,6 +1,7 @@
 /* Interaction: pointer events, drawing, pan and zoom */
 
 let MPP=.03,man=null;
+function pt(e){const r=cv.getBoundingClientRect();return{x:V.x0+(e.clientX-r.left)/r.width*V.w,y:V.y0+V.h-(e.clientY-r.top)/r.height*V.h};}
 const snap=v=>{const q=(V.g||1)/2;return +(Math.round(v/q)*q).toFixed(3);};
 function nodeAt(p){let b=-1,d=Math.max(.15,24*MPP);nodes.forEach((n,i)=>{const q=Math.hypot(n.x-p.x,n.y-p.y);if(q<d){d=q;b=i;}});return b;}
 function barAt(p){let b=-1,d=Math.max(.12,16*MPP);bars.forEach(([i,j],k)=>{const a=nodes[i],c=nodes[j],dx=c.x-a.x,dy=c.y-a.y,t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy))),q=Math.hypot(a.x+t*dx-p.x,a.y+t*dy-p.y);if(q<d){d=q;b=k;}});return b;}
