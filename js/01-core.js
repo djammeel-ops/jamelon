@@ -1,6 +1,7 @@
 /* Core: constants, icons, application state */
 
 const $=id=>document.getElementById(id);
+const fmt=v=>Number.isFinite(Number(v))?Number(v).toLocaleString('en-US',{maximumFractionDigits:3}):'—';
 const I={
 select:'<path d="M5 3l12 8-5 1.5L9.5 18z"/>',
 node:'<circle cx="12" cy="12" r="5" fill="currentColor"/>',
