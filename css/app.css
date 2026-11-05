@@ -1,0 +1,47 @@
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f7f7f5;--card:#fff;--fg:#1d1d1b;--mut:#6b6b66;--bd:#d9d9d3;--ac:#1f6feb;--ten:#1f6feb;--com:#d93025;--ld:#e07b00;--gr:#e6e6e0;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161616;--card:#222;--fg:#eee;--mut:#9a9a94;--bd:#3a3a38;--ac:#4c8dff;--ten:#5a9bff;--com:#ff6b60;--ld:#ffa040;--gr:#333;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161616;--card:#222;--fg:#eee;--mut:#9a9a94;--bd:#3a3a38;--ac:#4c8dff;--ten:#5a9bff;--com:#ff6b60;--ld:#ffa040;--gr:#333;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+main{max-width:720px;margin:0 auto;padding:8px}
+#cv{width:100%;height:auto;display:block;background:var(--card);border:1px solid var(--bd);border-radius:10px;touch-action:none;user-select:none}
+.g{stroke:var(--gr);stroke-width:1}
+#sm{display:none;gap:6px;margin-top:8px;justify-content:center}
+#sm button{padding:5px 12px;border:1px solid var(--bd);border-radius:16px;background:var(--card);color:var(--fg);font:12px inherit;display:flex;align-items:center;gap:4px}
+#sm svg{width:16px;height:16px}
+#sm button.on{border-color:var(--ac);color:var(--ac)}
+#tb{display:flex;gap:4px;margin-top:8px;justify-content:center}
+#tb button{flex:1 1 0;max-width:52px;min-width:0;padding:4px 0;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--fg);font:9.5px inherit;display:flex;flex-direction:column;align-items:center;gap:1px}
+svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#tb button.on{border-color:var(--ac);background:var(--ac);color:#fff}
+#tb button.calc{background:#1a9b4b;border-color:#1a9b4b;color:#fff}
+#hint{font-size:12.5px;color:var(--mut);margin:8px 2px;min-height:16px}
+.row{display:none;flex-wrap:wrap;gap:8px;align-items:flex-end;font-size:12px;margin-bottom:8px}
+.row label{display:flex;flex-direction:column;gap:2px;color:var(--mut)}
+.row input{width:76px;padding:5px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--fg);direction:ltr;font-size:14px}
+.row button{padding:7px 14px;border:0;border-radius:6px;background:var(--ac);color:#fff;font-size:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px;margin-top:12px}
+.card h2{font-size:15px;margin:0 0 6px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{padding:6px;border-bottom:1px solid var(--bd);text-align:center}
+.t{color:var(--ten);font-weight:700}.c{color:var(--com);font-weight:700}
+.err{color:var(--com);font-weight:600}
+.scroll{overflow-x:auto}
+#sm{grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;background:var(--card);border:1px solid var(--bd);border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.12)}
+#sm button{padding:8px 2px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--fg);font:11px inherit;flex-direction:column;align-items:center;gap:4px}
+#sm svg{width:28px;height:28px}
+#sm button.on{border-color:var(--ac);color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--card))}
+#tb{gap:4px;margin-top:10px;padding:6px;background:var(--card);border:1px solid var(--bd);border-radius:18px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+#tb button{max-width:none;padding:7px 0 6px;border:0;border-radius:13px;background:transparent;color:var(--mut);font:10.5px inherit;gap:3px}
+svg.i{width:25px;height:25px;stroke-width:1.8}
+.f{fill:currentColor;fill-opacity:.2}.s{fill:currentColor;stroke:none}
+#tb button.on{background:var(--ac);color:#fff}
+#tb button.calc{background:#1a9b4b;color:#fff}
+#tb button.cl{color:var(--com)}
+#tb button:disabled{opacity:.35}
+#sm.sup{grid-template-columns:repeat(2,1fr)}
+.row select{padding:6px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--fg);font-size:14px;min-width:76px}
+.cw{position:relative}
+#zm{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:6px}
+#zm button{width:38px;height:38px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--fg);font-size:20px;line-height:1;opacity:.93;padding:0}
