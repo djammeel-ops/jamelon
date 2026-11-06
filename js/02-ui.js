@@ -19,7 +19,7 @@ tb.onclick=e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.c){menu=menu?false:'main';tool=isC(tool)?tool:sub;}
   else{tool=b.dataset.t;menu=false;}
   pend=null;sel=null;picked=null;allPicked=false;buildTb();render();};
-sm.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.a=='image')return imgGuide?clearImageGuide():pickTrussImage();const t=b.dataset.s;if(t=='sup'){menu='sup';buildTb();return;}tool=sub=t;menu=false;pend=null;sel=null;buildTb();render();};
+sm.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.a=='image'){menu=false;buildTb();return imgGuide?clearImageGuide():pickTrussImage();}const t=b.dataset.s;if(t=='sup'){menu='sup';buildTb();return;}tool=sub=t;menu=false;pend=null;sel=null;buildTb();render();};
 function upd(){
   const ns=tool=='select'&&picked?.type=='node'&&sel!=null;
   $('pn').style.display=(tool=='node'||ns)?'flex':'none';
