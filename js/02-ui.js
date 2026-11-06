@@ -12,8 +12,6 @@ function buildTb(){
 const tb=$('tb'),sm=$('sm');
 tb.onclick=e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.a=='calc')return calc();
-  if(b.dataset.a=='projects')return openProjects();
-  if(b.dataset.a=='pdf')return exportPDF();
   if(b.dataset.a=='redo')return redo();
   if(b.dataset.t=='del'&&picked||b.dataset.t=='del'&&allPicked)return deletePicked();
   if(b.dataset.a=='undo')return undo();
