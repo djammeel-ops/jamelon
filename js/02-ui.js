@@ -3,6 +3,7 @@
 function buildTb(){
   let h=`<button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo" title="تراجع">${svg('undo')}تراجع</button><button data-a="redo" title="إعادة">${svg('redo')}إعادة</button>`;
 
+  h+=`<button data-a="image" title="${imgGuide?'إزالة الصورة المرجعية':'استيراد صورة'}">${svg('image')}${imgGuide?'إزالة الصورة':'صورة'}</button>`;
   h+=`<button data-a="calc" class="calc">${svg('calc')}حساب</button><button data-a="clr" class="cl">${svg('clr')}مسح</button>`;
   tb.innerHTML=h;
   sm.style.display=menu?'grid':'none';
@@ -11,6 +12,7 @@ function buildTb(){
 }
 const tb=$('tb'),sm=$('sm');
 tb.onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.a=='image')return imgGuide?clearImageGuide():pickTrussImage();
   if(b.dataset.a=='calc')return calc();
   if(b.dataset.a=='redo')return redo();
   if(b.dataset.t=='del'&&picked||b.dataset.t=='del'&&allPicked)return deletePicked();
