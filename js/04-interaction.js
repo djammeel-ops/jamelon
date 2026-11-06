@@ -9,7 +9,7 @@ function removeNode(k){nodes.splice(k,1);bars=bars.filter(b=>b[0]!=k&&b[1]!=k).m
   const re=o=>{const r={};for(const i in o){const n=+i;if(n==k)continue;r[n>k?n-1:n]=o[i];}return r;};sup=re(sup);loads=re(loads);sel=null;pend=null;}
 function supportAt(p){
   let best=null,d=.24;
-  for(const i in sup){const n=nodes[i];if(!n)continue;const q=Math.hypot(p.x-n.x,p.y-(n.y-.55));if(q<d){d=q;best=+i;}}
+  for(const i in sup){const n=nodes[i];if(!n)continue;const rotated=sup[i]=='rollerX'||sup[i]=='pinV';const q=Math.hypot(p.x-(n.x-(rotated?.55:0)),p.y-(n.y-(rotated?0:.55)));if(q<d){d=q;best=+i;}}
   return best;
 }
 function loadAt(p){
