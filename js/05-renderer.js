@@ -15,14 +15,15 @@ function render(){
   for(let j=0;j<0;j++){s+=`<line class="g" x1="0" y1="${j*100}" x2="${V.w*100}" y2="${j*100}"/>`;if((y1-j)%2==0&&j>0)s+=`<text x="4" y="${j*100-5}" font-size="20" fill="var(--mut)">${y1-j}</text>`;}
   bars.forEach(([i,j],k)=>{const a=nodes[i],b=nodes[j];let col='var(--fg)';
     if(res){const f=res.f[k];col=Math.abs(f)<1e-6?'var(--mut)':f>0?'var(--ten)':'var(--com)';}
-    s+=`<line x1="${X(a)}" y1="${Y(a)}" x2="${X(b)}" y2="${Y(b)}" stroke="${col}" stroke-width="9" stroke-linecap="round"/>`;
+    const chosen=allPicked||(picked?.type=='bar'&&picked.index==k);
+    s+=`<line x1="${X(a)}" y1="${Y(a)}" x2="${X(b)}" y2="${Y(b)}" stroke="${chosen?'var(--ac)':col}" stroke-width="${chosen?17:9}" stroke-linecap="round"/>`;
     if(res)s+=`<text x="${(X(a)+X(b))/2}" y="${(Y(a)+Y(b))/2-14}" font-size="26" text-anchor="middle" fill="${col}" stroke="var(--card)" stroke-width="5" paint-order="stroke">${fmt(res.f[k])}</text>`;});
   for(const i in sup){const n=nodes[i],t=sup[i];
     const tri=(t=='pin'||t=='pinV')?'<path d="M0 0L-28 48H28Z"/><path d="M-38 48H38"/>':'<path d="M0 0L-26 38H26Z"/><circle cx="-13" cy="48" r="9"/><circle cx="13" cy="48" r="9"/><path d="M-38 66H38"/>';
-    s+=`<g transform="translate(${X(n)},${Y(n)}) ${(t=='rollerX'||t=='pinV')?'rotate(90)':''}" stroke="var(--fg)" stroke-width="5" fill="none">${tri}</g>`;}
+    s+=`<g transform="translate(${X(n)},${Y(n)}) ${(t=='rollerX'||t=='pinV')?'rotate(90)':''}" stroke="${(allPicked||(picked?.type=='sup'&&picked.node==i))?'var(--ac)':'var(--fg)'}" stroke-width="5" fill="none">${tri}</g>`;}
   for(const i in loads)loads[i].forEach(([fx,fy],j)=>{const n=nodes[i],m=Math.hypot(fx,fy);if(!m)return;const L=110+j*45;
     const dx=fx/m,dy=-fy/m,x=X(n),y=Y(n),tx=x-dx*L,ty=y-dy*L,px=-dy,py=dx;
-    s+=`<g stroke="var(--ld)" fill="var(--ld)"><line x1="${tx}" y1="${ty}" x2="${x-dx*18}" y2="${y-dy*18}" stroke-width="6"/><polygon stroke="none" points="${x},${y} ${x-dx*30+px*12},${y-dy*30+py*12} ${x-dx*30-px*12},${y-dy*30-py*12}"/><text stroke="none" x="${tx-dx*8}" y="${ty-dy*8+8}" font-size="24" text-anchor="middle">${fmt(m)}</text></g>`;});
-  nodes.forEach((n,i)=>{const on=pend===i||sel===i;s+=`<circle cx="${X(n)}" cy="${Y(n)}" r="${on?21:16}" fill="${on?'var(--ac)':'var(--fg)'}"/><text x="${X(n)+16}" y="${Y(n)-16}" font-size="32" font-weight="700" fill="var(--fg)" stroke="var(--card)" stroke-width="5" paint-order="stroke">${nm(i)}</text>`;});
+    s+=`<g stroke="${(allPicked||(picked?.type=='load'&&picked.node==i&&picked.index==j))?'var(--ac)':'var(--ld)'}" fill="${(allPicked||(picked?.type=='load'&&picked.node==i&&picked.index==j))?'var(--ac)':'var(--ld)'}">`<line x1="${tx}" y1="${ty}" x2="${x-dx*18}" y2="${y-dy*18}" stroke-width="6"/><polygon stroke="none" points="${x},${y} ${x-dx*30+px*12},${y-dy*30+py*12} ${x-dx*30-px*12},${y-dy*30-py*12}"/><text stroke="none" x="${tx-dx*8}" y="${ty-dy*8+8}" font-size="24" text-anchor="middle">${fmt(m)}</text></g>`;});
+  nodes.forEach((n,i)=>{const on=allPicked||pend===i||(picked?.type=='node'&&picked.index==i);s+=`<circle cx="${X(n)}" cy="${Y(n)}" r="${on?21:16}" fill="${on?'var(--ac)':'var(--fg)'}"/><text x="${X(n)+16}" y="${Y(n)-16}" font-size="32" font-weight="700" fill="var(--fg)" stroke="var(--card)" stroke-width="5" paint-order="stroke">${nm(i)}</text>`;});
   cv.innerHTML=s;
 }
