@@ -10,9 +10,11 @@ async function main() {
   fs.mkdirSync(output, { recursive: true });
   fs.mkdirSync(web, { recursive: true });
 
-  // Standard icon plus Android adaptive icon layers.
+  // capacitor-assets requires assets/icon.png as its standard source.
+  await sharp(source).resize(1024, 1024).png().toFile(path.join(output, 'icon.png'));
   await sharp(source).resize(1024, 1024).png().toFile(path.join(output, 'icon-only.png'));
 
+  // Android adaptive icon foreground, with safe padding for launcher masks.
   const foreground = await sharp(source)
     .resize(680, 680, { fit: 'contain' })
     .png()
