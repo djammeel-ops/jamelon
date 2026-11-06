@@ -7,9 +7,39 @@ function nodeAt(p){let b=-1,d=Math.max(.15,24*MPP);nodes.forEach((n,i)=>{const q
 function barAt(p){let b=-1,d=Math.max(.12,16*MPP);bars.forEach(([i,j],k)=>{const a=nodes[i],c=nodes[j],dx=c.x-a.x,dy=c.y-a.y,t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy))),q=Math.hypot(a.x+t*dx-p.x,a.y+t*dy-p.y);if(q<d){d=q;b=k;}});return b;}
 function removeNode(k){nodes.splice(k,1);bars=bars.filter(b=>b[0]!=k&&b[1]!=k).map(b=>b.map(i=>i>k?i-1:i));
   const re=o=>{const r={};for(const i in o){const n=+i;if(n==k)continue;r[n>k?n-1:n]=o[i];}return r;};sup=re(sup);loads=re(loads);sel=null;pend=null;}
+function supportAt(p){
+  let best=null,d=.24;
+  for(const i in sup){const n=nodes[i];if(!n)continue;const q=Math.hypot(p.x-n.x,p.y-(n.y-.55));if(q<d){d=q;best=+i;}}
+  return best;
+}
+function loadAt(p){
+  let best=null,d=.22;
+  for(const i in loads){const n=nodes[i];if(!n)continue;
+    loads[i].forEach((v,j)=>{const m=Math.hypot(v[0],v[1]);if(!m)return;const dx=v[0]/m,dy=-v[1]/m,L=Math.max(.35,(110+j*45)*MPP);
+      const ax=n.x-dx*L,ay=n.y-dy*L,ux=n.x-ax,uy=n.y-ay,t=Math.max(0,Math.min(1,((p.x-ax)*ux+(p.y-ay)*uy)/(ux*ux+uy*uy))),q=Math.hypot(p.x-(ax+t*ux),p.y-(ay+t*uy));
+      if(q<d){d=q;best={node:+i,index:j};}});
+  }return best;
+}
+function deletePicked(){
+  if(allPicked){nodes=[];bars=[];sup={};loads={};}
+  else if(!picked)return;
+  else if(picked.type=='node')removeNode(picked.index);
+  else if(picked.type=='bar')bars.splice(picked.index,1);
+  else if(picked.type=='sup')delete sup[picked.node];
+  else if(picked.type=='load'){const a=loads[picked.node];if(a){a.splice(picked.index,1);if(!a.length)delete loads[picked.node];}}
+  picked=null;allPicked=false;sel=null;pend=null;dirty();buildTb();
+}
 function tapAt(e){
   const p=pt(e),k=nodeAt(p);ensureMan();
-  if(tool=='select'){sel=k>=0?k:null;upd();render();return;}
+  if(tool=='select'){
+    const supK=supportAt(p),loadK=loadAt(p),barK=barAt(p);
+    if(k>=0){picked={type:'node',index:k};sel=k;}
+    else if(supK!==null){picked={type:'sup',node:supK};sel=null;}
+    else if(loadK!==null){picked={type:'load',node:loadK.node,index:loadK.index};sel=null;}
+    else if(barK>=0){picked={type:'bar',index:barK};sel=null;}
+    else{picked=null;sel=null;}
+    allPicked=false;upd();render();return;
+  }
   if(tool=='node'){const x=snap(p.x),y=snap(p.y);if(!nodes.some(n=>n.x==x&&n.y==y)){nodes.push({x,y});dirty();}return;}
   if(tool=='bar'){if(k<0){pend=null;render();return;}
     if(pend===null){pend=k;render();return;}
@@ -34,7 +64,7 @@ cv.addEventListener('pointerdown',e=>{
   cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(ptrs.size==1){tapOk=true;moved=false;sx=e.clientX;sy=e.clientY;pan0=null;
     const k=nodeAt(pt(e));
-    if(tool=='select'&&k>=0){ensureMan();drag=k;sel=k;upd();render();}}
+    if(tool=='select'&&k>=0){ensureMan();drag=k;sel=k;picked={type:'node',index:k};allPicked=false;upd();render();}}
   else{tapOk=false;drag=null;pan0=null;G=gst();}
 });
 cv.addEventListener('pointermove',e=>{
