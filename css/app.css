@@ -64,6 +64,7 @@ svg.i{width:25px;height:25px;stroke-width:1.8}
 .project-actions button.load-project{color:white;background:var(--ac);border-color:var(--ac)}
 #printReport{display:none}
 @media print{
+  :root{--fg:#111;--card:#fff;--mut:#555;--gr:#ddd;--ten:#0756a5;--com:#b42318;--ld:#b56a00;color-scheme:light}
   @page{size:A4;margin:12mm}
   body{background:#fff!important;color:#111!important}
   body>*{visibility:hidden!important}
