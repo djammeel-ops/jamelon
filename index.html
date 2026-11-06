@@ -17,9 +17,8 @@
 <div class="row" id="pl"><label>العقدة<select id="ln"></select></label><label>Fx (kN)<input id="fx" type="number" step="any" enterkeyhint="next" value="0"></label><label>Fy (kN)<input id="fy" type="number" step="any" enterkeyhint="done" value="-10"></label><button id="ap">تطبيق</button></div>
 <div class="row" id="pa">
 <label>المساحة A (cm²)<input id="A" type="number" step="any" inputmode="decimal" enterkeyhint="next" placeholder="اختياري"></label>
-<label>إجهاد الشد المسموح (MPa)<input id="sgt" type="number" step="any" inputmode="decimal" enterkeyhint="next" placeholder="اختياري"></label>
-<label>إجهاد الضغط المسموح (MPa)<input id="sgc" type="number" step="any" inputmode="decimal" enterkeyhint="done" placeholder="اختياري"></label>
-<small style="flex-basis:100%;color:var(--mut)">المساحة اختيارية (10 cm² افتراضياً). أدخل إجهاد الشد و/أو الضغط المسموح لإظهار التحقق الموافق لكل قضيب.</small>
+<label>الإجهاد المسموح (MPa)<input id="sall" type="number" step="any" inputmode="decimal" enterkeyhint="done" placeholder="أدخل القيمة"></label>
+<small style="flex-basis:100%;color:var(--mut)">أدخل مساحة المقطع والإجهاد المسموح. يُطبّق الإجهاد نفسه على أكبر قوة محورية، سواء كانت شدًا أم انضغاطًا.</small>
 </div>
 <div id="out"></div>
 </main>
