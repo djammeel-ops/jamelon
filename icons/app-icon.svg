@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#062b70"/><stop offset=".55" stop-color="#0879d9"/><stop offset="1" stop-color="#00b9d5"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff2a6"/><stop offset=".45" stop-color="#ffc928"/><stop offset="1" stop-color="#d98a00"/></linearGradient>
+ <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".4" stop-color="#9bb9d8"/><stop offset="1" stop-color="#304c70"/></linearGradient>
+ <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse"><path d="M42 0H0V42" fill="none" stroke="#8edfff" stroke-opacity=".32" stroke-width="2"/></pattern>
+</defs>
+<rect x="12" y="12" width="488" height="488" rx="92" fill="url(#bg)" stroke="url(#gold)" stroke-width="12"/>
+<rect x="30" y="30" width="452" height="452" rx="74" fill="url(#grid)"/>
+<g fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M72 170V78H192Z"/><path d="M72 170H192"/><path d="M72 170L192 78"/>
+ <path d="M321 92h116v118H321z" fill="#063a86" fill-opacity=".7" stroke="#b9e9ff" stroke-width="4"/>
+</g>
+<g fill="#fff" font-family="Arial,sans-serif" font-size="22" font-weight="bold"><text x="344" y="133">sin θ</text><text x="344" y="171">cos θ</text><text x="344" y="202">tan θ</text></g>
+<g stroke="#172e4c" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none">
+ <path d="M62 352H450M62 352L164 245L256 151L348 245L450 352M164 245L256 352L348 245M164 245V352M256 151V352M348 245V352"/>
+</g>
+<g stroke="url(#steel)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none">
+ <path d="M62 352H450M62 352L164 245L256 151L348 245L450 352M164 245L256 352L348 245M164 245V352M256 151V352M348 245V352"/>
+</g>
+<g fill="url(#steel)" stroke="#17365e" stroke-width="5"><circle cx="62" cy="352" r="14"/><circle cx="164" cy="245" r="14"/><circle cx="256" cy="151" r="14"/><circle cx="348" cy="245" r="14"/><circle cx="256" cy="352" r="14"/><circle cx="450" cy="352" r="14"/></g>
+<path d="M60 378h390" stroke="url(#gold)" stroke-width="8" stroke-linecap="round"/>
+<g transform="translate(183 373) rotate(-8)">
+ <rect x="0" y="0" width="150" height="76" rx="14" fill="#102846" stroke="url(#gold)" stroke-width="5"/>
+ <rect x="14" y="10" width="122" height="19" rx="5" fill="#b9e9d2"/>
+ <g fill="#c5d8ec"><rect x="16" y="40" width="22" height="12" rx="3"/><rect x="48" y="40" width="22" height="12" rx="3"/><rect x="80" y="40" width="22" height="12" rx="3"/><rect x="112" y="40" width="22" height="12" rx="3"/><rect x="16" y="58" width="22" height="10" rx="3"/><rect x="48" y="58" width="22" height="10" rx="3"/><rect x="80" y="58" width="22" height="10" rx="3"/><rect x="112" y="58" width="22" height="10" rx="3"/></g>
+</g>
+</svg>
