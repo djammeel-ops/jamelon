@@ -6,7 +6,7 @@ function buildTb(){
   h+=`<button data-a="calc" class="calc">${svg('calc')}حساب</button><button data-a="clr" class="cl">${svg('clr')}مسح</button>`;
   tb.innerHTML=h;
   sm.style.display=menu?'grid':'none';
-  sm.className=menu=='sup'?'sup':'';sm.innerHTML=(menu=='sup'?SUP:SUB).map(([t,l])=>`<button data-s="${t}" class="${tool==t?'on':''}">${svg(t)}${l}</button>`).join('')+(menu=='main'?`<button data-a="image" title="${imgGuide?'إزالة الصورة المرجعية':'إضافة صورة'}">${svg('image')}${imgGuide?'إزالة الصورة':'إضافة صورة'}</button>`:'');
+  sm.className=menu=='sup'?'sup':'';sm.innerHTML=(menu=='sup'?SUP:SUB).map(([t,l])=>`<button data-s="${t}" class="${tool==t?'on':''}">${svg(t)}${l}</button>`).join('')+(menu=='main'?`<button data-a="image" title="قراءة نظام من صورة بالذكاء الاصطناعي">${svg('image')}قراءة صورة بالذكاء الاصطناعي</button>`:'');
   upd();
 }
 const tb=$('tb'),sm=$('sm');
@@ -19,7 +19,7 @@ tb.onclick=e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.c){menu=menu?false:'main';tool=isC(tool)?tool:sub;}
   else{tool=b.dataset.t;menu=false;}
   pend=null;sel=null;picked=null;allPicked=false;buildTb();render();};
-sm.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.a=='image'){menu=false;buildTb();return imgGuide?clearImageGuide():pickTrussImage();}const t=b.dataset.s;if(t=='sup'){menu='sup';buildTb();return;}tool=sub=t;menu=false;pend=null;sel=null;buildTb();render();};
+sm.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.a=='image'){menu=false;buildTb();return pickTrussImage();}const t=b.dataset.s;if(t=='sup'){menu='sup';buildTb();return;}tool=sub=t;menu=false;pend=null;sel=null;buildTb();render();};
 function upd(){
   const ns=tool=='select'&&picked?.type=='node'&&sel!=null;
   $('pn').style.display=(tool=='node'||ns)?'flex':'none';
