@@ -43,14 +43,15 @@ function validateModel(){
     if(!nodes[+i])throw new Error('يوجد حمل مرتبط بعقدة غير موجودة.');
     loads[i].forEach(v=>{if(!Array.isArray(v)||v.length<2||!Number.isFinite(+v[0])||!Number.isFinite(+v[1]))throw new Error('إحدى قيم الأحمال غير صالحة.');});
   }
-  const reactionCount=Object.values(sup).reduce((sum,type)=>sum+(type==='pin'||type==='pinV'?2:1),0);
-  if(reactionCount!==3)throw new Error(`شرط b = 2n−3 يفترض وجود ثلاث مركبات لردود الأفعال؛ عدد المركبات الحالية = ${reactionCount}.`);
-  const b=bars.length,n=nodes.length,expected=2*n-3;
-  if(b!==expected)throw new Error(`شرط التحديد السكوني غير متحقق: عدد القضبان b = ${b}، بينما 2n−3 = ${expected} لعدد العقد n = ${n}.`);
+
 }
 
 function calc(){
   const out=$('out');
+  const n=nodes.length,b=bars.length,expected=2*n-3;
+  const reactionCount=Object.values(sup).reduce((sum,type)=>sum+(type==='pin'||type==='pinV'?2:1),0);
+  const memberCountOK=b===expected,reactionCountOK=reactionCount===3,staticOK=memberCountOK&&reactionCountOK;
+  const staticReport=`<div class="card"><h2>التحقق من شرط التحديد السكوني</h2><p>عدد العقد n: <b>${n}</b></p><p>عدد القضبان b: <b>${b}</b></p><p>القيمة المطلوبة 2n−3: <b>${expected}</b></p><p>شرط عدد القضبان: <b class="${memberCountOK?'t':'c'}">${memberCountOK?'متحقق':'غير متحقق'}</b></p><p>مركبات ردود الأفعال: <b>${reactionCount} من أصل 3</b></p><p>النتيجة: <b class="${staticOK?'t':'c'}">${staticOK?'متحقق عدديًا':'غير متحقق'}</b></p><small>تحقق الشرط العددي لا يثبت الاستقرار الهندسي وحده؛ يُفحص استقرار المصفوفة أثناء الحل.</small></div>`;
   try{
     validateModel();
     const aText=$('A').value.trim(),sText=$('sall').value.trim();
@@ -105,7 +106,7 @@ function calc(){
     });
     res={f};render();
 
-    let h='<div class="card"><h2>القوى الداخلية في القضبان</h2><div class="scroll"><table><tr><th>القضيب</th><th>القوة (kN)</th><th>الحالة</th></tr>';
+    let h=staticReport+'<div class="card"><h2>القوى الداخلية في القضبان</h2><div class="scroll"><table><tr><th>القضيب</th><th>القوة (kN)</th><th>الحالة</th></tr>';
     f.forEach((v,k)=>{
       const [i,j]=bars[k],zero=Math.abs(v)<1e-6,cls=zero?'':v>0?'t':'c';
       h+=`<tr><td>${nm(i)}–${nm(j)}</td><td class="${cls}">${fmt(Math.abs(v))}</td><td class="${cls}">${zero?'قوة شبه معدومة':v>0?'شدّ':'انضغاط'}</td></tr>`;
@@ -125,7 +126,7 @@ function calc(){
       h+=`<p>مساحة المقطع المدخلة: <b>${fmt(aIn)} cm²</b></p><p>الإجهاد المحسوب: <b>${fmt(stress)} MPa</b></p><p>الإجهاد المسموح: <b>${fmt(sIn)} MPa</b></p><p>نسبة الاستغلال: <b>${fmt(ratio*100)}%</b></p><p class="${ok?'t':'c'}">${ok?'مقبول: الإجهاد المحسوب لا يتجاوز الإجهاد المسموح.':'غير مقبول: الإجهاد المحسوب يتجاوز الإجهاد المسموح.'}</p>`;
     }else if(Number.isFinite(sIn)){
       const requiredArea=10*maxForce/sIn;
-      h+=`<p>الإجهاد المسموح: <b>${fmt(sIn)} MPa</b></p><p>مساحة المقطع المطلوبة: <b>${fmt(requiredArea)} cm²</b></p><p>أي يجب اختيار مساحة لا تقل عن هذه القيمة نظريًا وفق الفحص المحوري.</p>`;
+      h+=`<p>الإجهاد المسموح: <b>${fmt(sIn)} MPa</b></p><p>مساحة المقطع المطلوبة للقضيب الأحادي: <b>${fmt(requiredArea)} cm²</b></p><p>مساحة كل قضيب عند استخدام قضيب مزدوج: <b>${fmt(requiredArea/2)} cm²</b> (بافتراض تقاسم القضيبين للقوة بالتساوي).</p><p>تُختار مساحة لا تقل عن القيمة المناسبة للحالة المعتمدة وفق الفحص المحوري.</p>`;
     }else{
       h+='<p>أدخل الإجهاد المسموح. يمكنك ترك المساحة فارغة لحساب المساحة المطلوبة، أو إدخالها لإجراء المقارنة.</p>';
     }
@@ -133,6 +134,6 @@ function calc(){
     out.innerHTML=h;
   }catch(e){
     res=null;render();
-    out.innerHTML=`<div class="card err">${e.message}</div>`;
+    out.innerHTML=staticReport+`<div class="card err">تعذر إتمام التحليل: ${e.message}</div>`;
   }
 }
