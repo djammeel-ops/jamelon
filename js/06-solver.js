@@ -43,6 +43,8 @@ function validateModel(){
     if(!nodes[+i])throw new Error('يوجد حمل مرتبط بعقدة غير موجودة.');
     loads[i].forEach(v=>{if(!Array.isArray(v)||v.length<2||!Number.isFinite(+v[0])||!Number.isFinite(+v[1]))throw new Error('إحدى قيم الأحمال غير صالحة.');});
   }
+  const reactionCount=Object.values(sup).reduce((sum,type)=>sum+(type==='pin'||type==='pinV'?2:1),0);
+  if(reactionCount!==3)throw new Error(`شرط b = 2n−3 يفترض وجود ثلاث مركبات لردود الأفعال؛ عدد المركبات الحالية = ${reactionCount}.`);
   const b=bars.length,n=nodes.length,expected=2*n-3;
   if(b!==expected)throw new Error(`شرط التحديد السكوني غير متحقق: عدد القضبان b = ${b}، بينما 2n−3 = ${expected} لعدد العقد n = ${n}.`);
 }
