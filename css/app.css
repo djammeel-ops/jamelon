@@ -49,7 +49,3 @@ svg.i{width:25px;height:25px;stroke-width:1.8}
 
 #trussImageFile{display:none}
 
-/* Keep image import clearly visible on small screens */
-#tb{flex-wrap:wrap}
-#tb button.image{flex:1 1 100%;max-width:none;flex-direction:row;justify-content:center;gap:8px;padding:9px 12px;border:1px solid var(--ac);border-radius:12px;background:color-mix(in srgb,var(--ac) 10%,var(--card));color:var(--ac);font-size:13px;font-weight:700}
-#tb button.image svg{width:22px;height:22px}
