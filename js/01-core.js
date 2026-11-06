@@ -36,6 +36,6 @@ const SUB=[['node','عقدة'],['bar','قضيب'],['load','حمل'],['sup','مس
 const SUP=[['pin','مفصلي أفقي'],['rollerY','متحرك أفقي'],['pinV','مفصلي شاقولي'],['rollerX','متحرك شاقولي']];
 const MAIN=[['select','تحريك'],['pin','مفصلي'],['rollerY','متحرك أ'],['rollerX','متحرك ر'],['del','حذف']];
 const nm=i=>(i>=26?nm(Math.floor(i/26)-1):'')+String.fromCharCode(65+i%26);
-let tool='bar',sub='bar',menu=false,pend=null,sel=null,drag=null,moved=false,res=null,V={x0:0,y0:0,w:12,h:8};
+let tool='select',sub='bar',menu=false,pend=null,sel=null,drag=null,moved=false,res=null,V={x0:0,y0:0,w:12,h:8};
 let nodes=[{x:2,y:2},{x:8,y:2},{x:5,y:5}],bars=[[0,1],[0,2],[1,2]],sup={0:'pin',1:'rollerY'},loads={2:[[0,-10]]};
 const isC=t=>SUB.some(s=>s[0]==t)||SUP.some(s=>s[0]==t);
