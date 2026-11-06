@@ -2,9 +2,9 @@
 
 function render(){
   const xs=nodes.map(n=>n.x),ys=nodes.map(n=>n.y);
-  const x0=Math.floor(Math.min(0,...xs.map(v=>v-1))),x1=Math.ceil(Math.max(12,...xs.map(v=>v+1)));
-  const y0=Math.floor(Math.min(0,...ys.map(v=>v-1.2))),y1=Math.ceil(Math.max(8,...ys.map(v=>v+1)));
-  if(man)V=man;else if(nodes.length){const mnx=Math.min(...xs),mxx=Math.max(...xs),mny=Math.min(...ys),mxy=Math.max(...ys),w=Math.max(12,mxx-mnx+3),h=Math.max(8,mxy-mny+3.5);V={x0:(mnx+mxx)/2-w/2,y0:(mny+mxy)/2-h/2,w,h};}else V={x0:0,y0:0,w:12,h:8};
+  const bx=imgGuide?[...xs,imgGuide.x,imgGuide.x+imgGuide.w]:xs;
+  const by=imgGuide?[...ys,imgGuide.y,imgGuide.y+imgGuide.h]:ys;
+  if(man)V=man;else if(bx.length){const mnx=Math.min(...bx),mxx=Math.max(...bx),mny=Math.min(...by),mxy=Math.max(...by),w=Math.max(12,mxx-mnx+3),h=Math.max(8,mxy-mny+3.5);V={x0:(mnx+mxx)/2-w/2,y0:(mny+mxy)/2-h/2,w,h};}else V={x0:0,y0:0,w:12,h:8};
   const S=1200/V.w,Hh=V.h*S;cv.setAttribute('viewBox',`0 0 1200 ${Hh}`);
   const X=n=>(n.x-V.x0)*S,Y=n=>(V.y0+V.h-n.y)*S;
   let s='';
@@ -13,6 +13,7 @@ function render(){
   for(let b=Math.ceil(V.y0/g)*g;b<=V.y0+V.h+1e-9;b+=g){const py=(V.y0+V.h-b)*S;s+=`<line class="g" x1="0" y1="${py}" x2="1200" y2="${py}"/><text x="6" y="${py-6}" font-size="22" fill="var(--mut)">${+b.toFixed(2)}</text>`;}
   for(let i=0;i<0;i++){s+=`<line class="g" x1="${i*100}" y1="0" x2="${i*100}" y2="${V.h*100}"/>`;if((x0+i)%2==0)s+=`<text x="${i*100+4}" y="${V.h*100-6}" font-size="20" fill="var(--mut)">${x0+i}</text>`;}
   for(let j=0;j<0;j++){s+=`<line class="g" x1="0" y1="${j*100}" x2="${V.w*100}" y2="${j*100}"/>`;if((y1-j)%2==0&&j>0)s+=`<text x="4" y="${j*100-5}" font-size="20" fill="var(--mut)">${y1-j}</text>`;}
+  if(imgGuide)s+=`<image href="${imgGuide.src}" x="${(imgGuide.x-V.x0)*S}" y="${(V.y0+V.h-(imgGuide.y+imgGuide.h))*S}" width="${imgGuide.w*S}" height="${imgGuide.h*S}" opacity=".32" preserveAspectRatio="none" pointer-events="none"/>`;
   bars.forEach(([i,j],k)=>{const a=nodes[i],b=nodes[j];let col='var(--fg)';
     if(res){const f=res.f[k];col=Math.abs(f)<1e-6?'var(--mut)':f>0?'var(--ten)':'var(--com)';}
     const chosen=allPicked||(picked?.type=='bar'&&picked.index==k);
