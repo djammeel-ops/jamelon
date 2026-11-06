@@ -24,6 +24,7 @@ pin:'<path class="f" d="M12 5l7 13H5z"/><path d="M3 21h18"/><circle class="s" cx
 rollerY:'<path class="f" d="M12 4l6.5 10h-13z"/><circle cx="8.5" cy="17.5" r="2"/><circle cx="15.5" cy="17.5" r="2"/><path d="M3 21.5h18"/>',
 rollerX:'<g transform="rotate(90 12 12)"><path class="f" d="M12 4l6.5 10h-13z"/><circle cx="8.5" cy="17.5" r="2"/><circle cx="15.5" cy="17.5" r="2"/><path d="M3 21.5h18"/></g>',
 del:'<circle class="f" cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
+image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="M21 15l-5-5L5 20"/>',
 calc:'<path class="s" d="M8 5l11 7-11 7z" stroke-linejoin="round"/>',
 clr:'<path class="f" d="M6 7l1 13h10l1-13z"/><path d="M4 7h16M9.5 7V4h5v3"/>',
 undo:'<path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/>',
@@ -37,6 +38,7 @@ const SUB=[['node','عقدة'],['bar','قضيب'],['load','حمل'],['sup','مس
 const SUP=[['pin','مفصلي أفقي'],['rollerY','متحرك أفقي'],['pinV','مفصلي شاقولي'],['rollerX','متحرك شاقولي']];
 const MAIN=[['select','تحريك'],['pin','مفصلي'],['rollerY','متحرك أ'],['rollerX','متحرك ر'],['del','حذف']];
 const nm=i=>(i>=26?nm(Math.floor(i/26)-1):'')+String.fromCharCode(65+i%26);
+let imgGuide=null; // temporary image reference used while tracing a model
 let tool='select',sub='bar',menu=false,pend=null,sel=null,picked=null,allPicked=false,drag=null,moved=false,res=null,V={x0:0,y0:0,w:12,h:8};
 let nodes=[{x:2,y:2},{x:8,y:2},{x:5,y:5}],bars=[[0,1],[0,2],[1,2]],sup={0:'pin',1:'rollerY'},loads={2:[[0,-10]]};
 const isC=t=>SUB.some(s=>s[0]==t)||SUP.some(s=>s[0]==t);
