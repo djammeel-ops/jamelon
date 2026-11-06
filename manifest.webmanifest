@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "الأنظمة المثلثية",
+  "short_name": "الأنظمة المثلثية",
+  "description": "تطبيق عربي لرسم وتحليل الجمالونات المستوية",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f7f5",
+  "theme_color": "#0756a5",
+  "icons": [
+    {
+      "src": "icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
