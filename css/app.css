@@ -45,3 +45,37 @@ svg.i{width:25px;height:25px;stroke-width:1.8}
 .cw{position:relative}
 #zm{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:6px}
 #zm button{width:38px;height:38px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--fg);font-size:20px;line-height:1;opacity:.93;padding:0}
+
+/* Project manager */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:14px}
+.modal[hidden]{display:none}
+.modal-box{width:min(560px,100%);max-height:85vh;overflow:auto;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:16px;padding:14px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.modal-head,.save-row,.project-item{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.modal-head h2{font-size:17px;margin:0}
+.modal button{border:1px solid var(--bd);border-radius:8px;padding:8px 12px;background:var(--bg);color:var(--fg);font:inherit}
+.save-row{margin:14px 0;flex-wrap:wrap}
+.save-row input{flex:1;min-width:130px;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit}
+#saveProject{background:var(--ac);color:white;border-color:var(--ac)}
+.project-item{border-top:1px solid var(--bd);padding:10px 0;flex-wrap:wrap}
+.project-meta{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.project-meta strong{overflow-wrap:anywhere}
+.project-meta small,.modal-note{color:var(--mut);font-size:12px}
+.project-actions{display:flex;gap:5px}
+.project-actions button.load-project{color:white;background:var(--ac);border-color:var(--ac)}
+#printReport{display:none}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff!important;color:#111!important}
+  body>*{visibility:hidden!important}
+  #printReport,#printReport *{visibility:visible!important}
+  #printReport{display:block!important;position:absolute;inset:0;width:100%;background:#fff;color:#111;font-family:Arial,Tahoma,sans-serif;direction:rtl}
+  #printReport h1{font-size:20px;margin:0 0 5px}
+  #printReport .print-date{font-size:10px;color:#555;margin-bottom:12px}
+  #printReport svg{display:block;width:100%;height:auto;max-height:125mm;border:1px solid #bbb;margin:8px 0 14px;background:#fff}
+  #printReport .card{break-inside:avoid;background:#fff!important;color:#111!important;border:1px solid #bbb;box-shadow:none;margin:8px 0;padding:8px}
+  #printReport .card h2{font-size:14px}
+  #printReport table{font-size:11px}
+  #printReport td,#printReport th{border-bottom:1px solid #ccc;padding:4px;color:#111!important}
+  #printReport .t{color:#0756a5!important}#printReport .c{color:#b42318!important}
+  #printReport small{font-size:9px}
+}
