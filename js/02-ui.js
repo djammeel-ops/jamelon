@@ -1,10 +1,9 @@
 /* UI: toolbar, menus, input controls */
 
 function buildTb(){
-  let h=`<button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo" title="تراجع">${svg('undo')}تراجع</button><button data-a="redo" title="إعادة">${svg('redo')}إعادة</button>`;
+  let h=`<button data-a="image" class="image" title="${imgGuide?'إزالة الصورة المرجعية':'استيراد صورة'}">${svg('image')}${imgGuide?'إزالة الصورة':'إضافة صورة'}</button><button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo" title="تراجع">${svg('undo')}تراجع</button><button data-a="redo" title="إعادة">${svg('redo')}إعادة</button>`;
 
   if(imgGuide)h+=`<button data-a="detect" title="اكتشاف العقد والقضبان من الصورة">اكتشاف</button>`;
-  h+=`<button data-a="image" title="${imgGuide?'إزالة الصورة المرجعية':'استيراد صورة'}">${svg('image')}${imgGuide?'إزالة الصورة':'صورة'}</button>`;
   h+=`<button data-a="calc" class="calc">${svg('calc')}حساب</button><button data-a="clr" class="cl">${svg('clr')}مسح</button>`;
   tb.innerHTML=h;
   sm.style.display=menu?'grid':'none';
