@@ -30,12 +30,12 @@ undo:'<path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/>',
 sup:'<path class="f" d="M12 8l6 11H6z"/><path d="M3 21h18M12 3v5"/>',
 pinV:'<g transform="rotate(90 12 12)"><path class="f" d="M12 5l7 13H5z"/><path d="M3 21h18"/><circle class="s" cx="12" cy="5" r="2"/></g>'});
 const svg=k=>`<svg class="i" viewBox="0 0 24 24">${I[k]}</svg>`;
-const HINT={select:'انقر على عقدة لتحديدها: اسحبها أو عدّل إحداثياتها يدويًا.',node:'انقر على الرسم لإضافة عقدة، أو اكتب الفاصلة والترتيبة ثم «إضافة».',bar:'انقر على عقدة ثم على عقدة أخرى لرسم قضيب.',load:'اكتب Fx وFy ثم انقر على العقدة لتطبيق الحمل.',
+const HINT={select:'انقر على أي عنصر لتحديده، أو استخدم «تحديد الكل».',node:'انقر على الرسم لإضافة عقدة، أو اكتب الفاصلة والترتيبة ثم «إضافة».',bar:'انقر على عقدة ثم على عقدة أخرى لرسم قضيب.',load:'اكتب Fx وFy ثم انقر على العقدة لتطبيق الحمل.',
 pin:'انقر على عقدة: مسند مفصلي أفقي (يمنع الحركتين).',pinV:'انقر على عقدة: مسند مفصلي شاقولي (يمنع الحركتين).',rollerY:'انقر على عقدة: مسند متحرك أفقي (يمنع الحركة الرأسية فقط).',rollerX:'انقر على عقدة: مسند متحرك شاقولي (يمنع الحركة الأفقية فقط).',del:'انقر على قضيب لحذفه. النقر المتكرر على عقدة يحذف المسند ثم الأحمال (آخر حمل أولًا) ثم العقدة.'};
 const SUB=[['node','عقدة'],['bar','قضيب'],['load','حمل'],['sup','مسند']];
 const SUP=[['pin','مفصلي أفقي'],['rollerY','متحرك أفقي'],['pinV','مفصلي شاقولي'],['rollerX','متحرك شاقولي']];
 const MAIN=[['select','تحريك'],['pin','مفصلي'],['rollerY','متحرك أ'],['rollerX','متحرك ر'],['del','حذف']];
 const nm=i=>(i>=26?nm(Math.floor(i/26)-1):'')+String.fromCharCode(65+i%26);
-let tool='select',sub='bar',menu=false,pend=null,sel=null,drag=null,moved=false,res=null,V={x0:0,y0:0,w:12,h:8};
+let tool='select',sub='bar',menu=false,pend=null,sel=null,picked=null,allPicked=false,drag=null,moved=false,res=null,V={x0:0,y0:0,w:12,h:8};
 let nodes=[{x:2,y:2},{x:8,y:2},{x:5,y:5}],bars=[[0,1],[0,2],[1,2]],sup={0:'pin',1:'rollerY'},loads={2:[[0,-10]]};
 const isC=t=>SUB.some(s=>s[0]==t)||SUP.some(s=>s[0]==t);
