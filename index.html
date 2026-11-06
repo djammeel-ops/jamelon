@@ -13,6 +13,7 @@
 </head>
 <body>
 <main>
+<section id="fixed-pane">
 <div class="cw"><svg id="cv" viewBox="0 0 1200 800"></svg><div id="zm"><button data-z="in">+</button><button data-z="out">−</button><button data-z="fit">⤢</button></div></div>
 <div id="sm"></div>
 <div id="tb"></div>
@@ -24,7 +25,10 @@
 <label>الإجهاد المسموح (MPa)<input id="sall" type="number" step="any" inputmode="decimal" enterkeyhint="done" placeholder="أدخل القيمة"></label>
 <small style="flex-basis:100%;color:var(--mut)">أدخل الإجهاد المسموح فقط لحساب مساحة المقطع المطلوبة للقضيب الأحادي والمزدوج، أو أدخل المساحة معه للمقارنة.</small>
 </div>
+</section>
+<section id="results-pane" aria-label="نتائج الحساب">
 <div id="out"></div>
+</section>
 </main>
 <script defer src="js/01-core.js"></script>
 <script defer src="js/02-ui.js"></script>
