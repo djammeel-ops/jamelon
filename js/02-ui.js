@@ -1,7 +1,7 @@
 /* UI: toolbar, menus, input controls */
 
 function buildTb(){
-  let h=`<button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo" title="تراجع">${svg('undo')}تراجع</button><button data-a="redo" title="إعادة">${svg('redo')}إعادة</button><button data-a="projects" title="المشاريع">▤<span>مشاريعي</span></button><button data-a="pdf" title="تصدير PDF">PDF</button>`;
+  let h=`<button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo" title="تراجع">${svg('undo')}تراجع</button><button data-a="redo" title="إعادة">${svg('redo')}إعادة</button>`;
 
   h+=`<button data-a="calc" class="calc">${svg('calc')}حساب</button><button data-a="clr" class="cl">${svg('clr')}مسح</button>`;
   tb.innerHTML=h;
