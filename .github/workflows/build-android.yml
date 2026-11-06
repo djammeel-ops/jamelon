@@ -36,9 +36,11 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Generate Android icon assets
-        run: npm run build:assets && npx capacitor-assets generate --android
+        run: npm run build:assets
       - name: Add Android platform
         run: npx cap add android
+      - name: Generate Android icons
+        run: npx capacitor-assets generate --android
       - name: Sync web application
         run: npx cap sync android
       - name: Build debug APK
