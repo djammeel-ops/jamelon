@@ -1,19 +1,16 @@
 /* UI: toolbar, menus, input controls */
 
 function buildTb(){
-  let h=`<button data-a="image" class="image" title="${imgGuide?'إزالة الصورة المرجعية':'استيراد صورة'}">${svg('image')}${imgGuide?'إزالة الصورة':'إضافة صورة'}</button><button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo" title="تراجع">${svg('undo')}تراجع</button><button data-a="redo" title="إعادة">${svg('redo')}إعادة</button>`;
+  let h=`<button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo" title="تراجع">${svg('undo')}تراجع</button><button data-a="redo" title="إعادة">${svg('redo')}إعادة</button>`;
 
-  if(imgGuide)h+=`<button data-a="detect" title="اكتشاف العقد والقضبان من الصورة">اكتشاف</button>`;
   h+=`<button data-a="calc" class="calc">${svg('calc')}حساب</button><button data-a="clr" class="cl">${svg('clr')}مسح</button>`;
   tb.innerHTML=h;
   sm.style.display=menu?'grid':'none';
-  sm.className=menu=='sup'?'sup':'';sm.innerHTML=(menu=='sup'?SUP:SUB).map(([t,l])=>`<button data-s="${t}" class="${tool==t?'on':''}">${svg(t)}${l}</button>`).join('');
+  sm.className=menu=='sup'?'sup':'';sm.innerHTML=(menu=='sup'?SUP:SUB).map(([t,l])=>`<button data-s="${t}" class="${tool==t?'on':''}">${svg(t)}${l}</button>`).join('')+(menu=='main'?`<button data-a="image" title="${imgGuide?'إزالة الصورة المرجعية':'إضافة صورة'}">${svg('image')}${imgGuide?'إزالة الصورة':'إضافة صورة'}</button>`:'');
   upd();
 }
 const tb=$('tb'),sm=$('sm');
 tb.onclick=e=>{const b=e.target.closest('button');if(!b)return;
-  if(b.dataset.a=='image')return imgGuide?clearImageGuide():pickTrussImage();
-  if(b.dataset.a=='detect')return detectTrussFromImage();
   if(b.dataset.a=='calc')return calc();
   if(b.dataset.a=='redo')return redo();
   if(b.dataset.t=='del'&&picked||b.dataset.t=='del'&&allPicked)return deletePicked();
@@ -22,7 +19,7 @@ tb.onclick=e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.c){menu=menu?false:'main';tool=isC(tool)?tool:sub;}
   else{tool=b.dataset.t;menu=false;}
   pend=null;sel=null;picked=null;allPicked=false;buildTb();render();};
-sm.onclick=e=>{const b=e.target.closest('button');if(!b)return;const t=b.dataset.s;if(t=='sup'){menu='sup';buildTb();return;}tool=sub=t;menu=false;pend=null;sel=null;buildTb();render();};
+sm.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.a=='image')return imgGuide?clearImageGuide():pickTrussImage();const t=b.dataset.s;if(t=='sup'){menu='sup';buildTb();return;}tool=sub=t;menu=false;pend=null;sel=null;buildTb();render();};
 function upd(){
   const ns=tool=='select'&&picked?.type=='node'&&sel!=null;
   $('pn').style.display=(tool=='node'||ns)?'flex':'none';
