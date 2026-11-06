@@ -27,6 +27,7 @@ del:'<circle class="f" cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
 calc:'<path class="s" d="M8 5l11 7-11 7z" stroke-linejoin="round"/>',
 clr:'<path class="f" d="M6 7l1 13h10l1-13z"/><path d="M4 7h16M9.5 7V4h5v3"/>',
 undo:'<path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/>',
+redo:'<path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 000 11H13"/>' ,
 sup:'<path class="f" d="M12 8l6 11H6z"/><path d="M3 21h18M12 3v5"/>',
 pinV:'<g transform="rotate(90 12 12)"><path class="f" d="M12 5l7 13H5z"/><path d="M3 21h18"/><circle class="s" cx="12" cy="5" r="2"/></g>'});
 const svg=k=>`<svg class="i" viewBox="0 0 24 24">${I[k]}</svg>`;
