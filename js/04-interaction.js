@@ -15,7 +15,7 @@ function supportAt(p){
 function loadAt(p){
   let best=null,d=.22;
   for(const i in loads){const n=nodes[i];if(!n)continue;
-    loads[i].forEach((v,j)=>{const m=Math.hypot(v[0],v[1]);if(!m)return;const dx=v[0]/m,dy=-v[1]/m,L=Math.max(.35,(110+j*45)*MPP);
+    loads[i].forEach((v,j)=>{const m=Math.hypot(v[0],v[1]);if(!m)return;const dx=v[0]/m,dy=-v[1]/m,L=(110+j*45)*V.w/1200;
       const ax=n.x-dx*L,ay=n.y-dy*L,ux=n.x-ax,uy=n.y-ay,t=Math.max(0,Math.min(1,((p.x-ax)*ux+(p.y-ay)*uy)/(ux*ux+uy*uy))),q=Math.hypot(p.x-(ax+t*ux),p.y-(ay+t*uy));
       if(q<d){d=q;best={node:+i,index:j};}});
   }return best;
