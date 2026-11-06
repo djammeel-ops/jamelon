@@ -1,7 +1,7 @@
 /* UI: toolbar, menus, input controls */
 
 function buildTb(){
-  let h=`<button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo">${svg('undo')}تراجع</button>`;
+  let h=`<button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo" title="تراجع">${svg('undo')}تراجع</button><button data-a="redo" title="إعادة">${svg('redo')}إعادة</button><button data-a="projects" title="المشاريع">▤<span>مشاريعي</span></button><button data-a="pdf" title="تصدير PDF">PDF</button>`;
 
   h+=`<button data-a="calc" class="calc">${svg('calc')}حساب</button><button data-a="clr" class="cl">${svg('clr')}مسح</button>`;
   tb.innerHTML=h;
@@ -12,6 +12,9 @@ function buildTb(){
 const tb=$('tb'),sm=$('sm');
 tb.onclick=e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.a=='calc')return calc();
+  if(b.dataset.a=='projects')return openProjects();
+  if(b.dataset.a=='pdf')return exportPDF();
+  if(b.dataset.a=='redo')return redo();
   if(b.dataset.t=='del'&&picked||b.dataset.t=='del'&&allPicked)return deletePicked();
   if(b.dataset.a=='undo')return undo();
   if(b.dataset.a=='clr'){nodes=[];bars=[];sup={};loads={};pend=null;sel=null;man=null;dirty();return;}
@@ -26,6 +29,7 @@ function upd(){
   $('pa').style.display=tool=='bar'?'flex':'none';
   $('ln').innerHTML='<option value="">—</option>'+nodes.map((_,i)=>`<option value="${i}">${nm(i)}</option>`).join('');$('ln').value=sel==null?'':sel;
   const u=document.querySelector('[data-a=undo]');if(u)u.disabled=!hist.length;
+  const r=document.querySelector('[data-a=redo]');if(r)r.disabled=!redoHist.length;
   $('go').textContent=tool=='node'?'إضافة':'تحديث';
   if(ns){$('nx').value=nodes[sel].x;$('ny').value=nodes[sel].y;}
   $('hint').textContent=ns?`العقدة ${nm(sel)}: عدّل الفاصلة والترتيبة ثم «تحديث».`:tool=='load'?(sel!=null?`العقدة ${nm(sel)}: اكتب Fx وFy ثم «تطبيق» (يمكن تكرار ذلك لإضافة أحمال أخرى على العقدة نفسها).`:'حدّد العقدة أولًا (بالنقر عليها أو من القائمة) ثم اكتب Fx وFy.'):HINT[tool]||'';
