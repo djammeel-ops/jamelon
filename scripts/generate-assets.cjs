@@ -9,8 +9,40 @@ async function main() {
   const web = path.join(root, 'www');
   fs.mkdirSync(output, { recursive: true });
   fs.mkdirSync(web, { recursive: true });
+
+  // Standard icon plus Android adaptive icon layers.
   await sharp(source).resize(1024, 1024).png().toFile(path.join(output, 'icon-only.png'));
-  await sharp(source).resize(2732, 2732, { fit: 'contain', background: '#0756a5' }).png().toFile(path.join(output, 'splash.png'));
+
+  const foreground = await sharp(source)
+    .resize(680, 680, { fit: 'contain' })
+    .png()
+    .toBuffer();
+  await sharp({
+    create: {
+      width: 1024,
+      height: 1024,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0 }
+    }
+  })
+    .composite([{ input: foreground, left: 172, top: 172 }])
+    .png()
+    .toFile(path.join(output, 'icon-foreground.png'));
+
+  await sharp({
+    create: {
+      width: 1024,
+      height: 1024,
+      channels: 3,
+      background: '#0756a5'
+    }
+  }).png().toFile(path.join(output, 'icon-background.png'));
+
+  await sharp(source)
+    .resize(2732, 2732, { fit: 'contain', background: '#0756a5' })
+    .png()
+    .toFile(path.join(output, 'splash.png'));
+
   for (const item of ['index.html', 'manifest.webmanifest', 'css', 'js', 'icons']) {
     fs.cpSync(path.join(root, item), path.join(web, item), { recursive: true });
   }
