@@ -3,7 +3,7 @@
 function buildTb(){
   let h=`<button data-t="select" class="${tool=='select'?'on':''}">${svg('select')}تحديد</button><button data-c="1" class="${isC(tool)?'on':''}">${svg(sub)}إضافة ▴</button><button data-t="del" class="${tool=='del'?'on':''}">${svg('del')}حذف</button><button data-a="undo">${svg('undo')}تراجع</button>`;
 
-  h+=`<button data-a="calc" class="calc">${svg('calc')}حساب</button><button data-a="clr" class="cl">${svg('clr')}مسح</button>`;
+  h+=`<button data-a="all">${svg('select')}تحديد الكل</button><button data-a="calc" class="calc">${svg('calc')}حساب</button><button data-a="clr" class="cl">${svg('clr')}مسح</button>`;
   tb.innerHTML=h;
   sm.style.display=menu?'grid':'none';
   sm.className=menu=='sup'?'sup':'';sm.innerHTML=(menu=='sup'?SUP:SUB).map(([t,l])=>`<button data-s="${t}" class="${tool==t?'on':''}">${svg(t)}${l}</button>`).join('');
@@ -12,14 +12,16 @@ function buildTb(){
 const tb=$('tb'),sm=$('sm');
 tb.onclick=e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.a=='calc')return calc();
+  if(b.dataset.a=='all'){allPicked=true;picked=null;sel=null;tool='select';menu=false;buildTb();render();return;}
+  if(b.dataset.t=='del'&&picked||b.dataset.t=='del'&&allPicked)return deletePicked();
   if(b.dataset.a=='undo')return undo();
   if(b.dataset.a=='clr'){nodes=[];bars=[];sup={};loads={};pend=null;sel=null;man=null;dirty();return;}
   if(b.dataset.c){menu=menu?false:'main';tool=isC(tool)?tool:sub;}
   else{tool=b.dataset.t;menu=false;}
-  pend=null;sel=null;buildTb();render();};
+  pend=null;sel=null;picked=null;allPicked=false;buildTb();render();};
 sm.onclick=e=>{const b=e.target.closest('button');if(!b)return;const t=b.dataset.s;if(t=='sup'){menu='sup';buildTb();return;}tool=sub=t;menu=false;pend=null;sel=null;buildTb();render();};
 function upd(){
-  const ns=tool=='select'&&sel!=null;
+  const ns=tool=='select'&&picked?.type=='node'&&sel!=null;
   $('pn').style.display=(tool=='node'||ns)?'flex':'none';
   $('pl').style.display=tool=='load'?'flex':'none';
   $('pa').style.display=tool=='bar'?'flex':'none';
