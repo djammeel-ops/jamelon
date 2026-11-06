@@ -61,6 +61,7 @@ function calc(){
     if(Number.isFinite(sIn)&&sIn<=0)throw new Error('يجب أن يكون الإجهاد المسموح أكبر من صفر.');
 
     const E=200e6; // kN/m²; assumed linear-elastic steel modulus
+    // A common reference area is sufficient for force analysis; the entered area is used only in the ASD check.
     const area=Number.isFinite(aIn)?aIn*1e-4:1e-3;
     const D=nodes.length*2;
     const K=Array.from({length:D},()=>Array(D).fill(0));
@@ -118,11 +119,17 @@ function calc(){
     const maxIndex=f.reduce((best,v,k)=>Math.abs(v)>Math.abs(f[best])?k:best,0);
     const maxForce=Math.abs(f[maxIndex]||0),member=bars.length?nm(bars[maxIndex][0])+'–'+nm(bars[maxIndex][1]):'—';
     h+='<div class="card"><h2>التحقق بالإجهاد المسموح</h2>';
-    if(Number.isFinite(aIn)&&Number.isFinite(sIn)){
+    h+=`<p>أكبر قوة محورية: <b>${fmt(maxForce)} kN</b> في القضيب <b>${member}</b>.</p>`;
+    if(Number.isFinite(sIn)&&Number.isFinite(aIn)){
       const stress=10*maxForce/aIn,ratio=stress/sIn,ok=ratio<=1;
-      h+=`<p>أكبر قوة محورية: <b>${fmt(maxForce)} kN</b> في القضيب <b>${member}</b>.</p><p>مساحة المقطع: <b>${fmt(aIn)} cm²</b></p><p>الإجهاد المحسوب: <b>${fmt(stress)} MPa</b></p><p>الإجهاد المسموح: <b>${fmt(sIn)} MPa</b></p><p>نسبة الاستغلال: <b>${fmt(ratio*100)}%</b></p><p class="${ok?'t':'c'}">${ok?'مقبول: الإجهاد المحسوب لا يتجاوز الإجهاد المسموح.':'غير مقبول: الإجهاد المحسوب يتجاوز الإجهاد المسموح.'}</p>`;
-    }else h+='<p>أدخل مساحة المقطع والإجهاد المسموح لإتمام التحقق.</p>';
-    h+='<small>يُطبّق الإجهاد المسموح نفسه على أكبر قيمة مطلقة للقوة المحورية، دون التفريق بين الشد والانضغاط. الفحص محوري فقط.</small></div>';
+      h+=`<p>مساحة المقطع المدخلة: <b>${fmt(aIn)} cm²</b></p><p>الإجهاد المحسوب: <b>${fmt(stress)} MPa</b></p><p>الإجهاد المسموح: <b>${fmt(sIn)} MPa</b></p><p>نسبة الاستغلال: <b>${fmt(ratio*100)}%</b></p><p class="${ok?'t':'c'}">${ok?'مقبول: الإجهاد المحسوب لا يتجاوز الإجهاد المسموح.':'غير مقبول: الإجهاد المحسوب يتجاوز الإجهاد المسموح.'}</p>`;
+    }else if(Number.isFinite(sIn)){
+      const requiredArea=10*maxForce/sIn;
+      h+=`<p>الإجهاد المسموح: <b>${fmt(sIn)} MPa</b></p><p>مساحة المقطع المطلوبة: <b>${fmt(requiredArea)} cm²</b></p><p>أي يجب اختيار مساحة لا تقل عن هذه القيمة نظريًا وفق الفحص المحوري.</p>`;
+    }else{
+      h+='<p>أدخل الإجهاد المسموح. يمكنك ترك المساحة فارغة لحساب المساحة المطلوبة، أو إدخالها لإجراء المقارنة.</p>';
+    }
+    h+='<small>يُطبّق الإجهاد المسموح نفسه على أكبر قيمة مطلقة للقوة المحورية، دون التفريق بين الشد والانضغاط. إذا أُدخلت المساحة تُجرى المقارنة، وإذا تُركت فارغة تُحسب المساحة المطلوبة. الفحص محوري فقط.</small></div>';
     out.innerHTML=h;
   }catch(e){
     res=null;render();
